@@ -8,6 +8,7 @@ const AddNote = ({ handleAddNote, existingTitles }) => {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [isSaveEnabled, setIsSaveEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const characterLimit = 200;
 
   useEffect(() => {
     const allFieldsFilled =
@@ -17,6 +18,12 @@ const AddNote = ({ handleAddNote, existingTitles }) => {
     setIsSaveEnabled(allFieldsFilled);
     setErrorMessage(""); // Clear error message when fields change
   }, [noteTitle, noteCategory, noteText]);
+
+  const handleChange = (event) => {
+    if (characterLimit - event.target.value.length >= 0) {
+      setNoteText(event.target.value);
+    }
+  };
 
   const handleTitleChange = (event) => {
     setNoteTitle(event.target.value);
@@ -78,6 +85,7 @@ const AddNote = ({ handleAddNote, existingTitles }) => {
               cols="10"
               placeholder="Type to add a note..."
               value={noteText}
+              onChange={handleChange}
             ></textarea>
             <div className="note-footer">
               <button
